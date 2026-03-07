@@ -1,0 +1,58 @@
+{
+  "name": "scherhak/uplinkr-api",
+  "description": "REST API package for Uplinkr monitoring.",
+  "keywords": [
+    "api",
+    "rest",
+    "laravel",
+    "monitoring",
+    "uptime",
+    "probe",
+    "status"
+  ],
+  "type": "library",
+  "license": "MIT",
+  "homepage": "https://uplinkr.dev",
+  "authors": [
+    {
+      "name": "Sascha Scherhak",
+      "email": "sascha@uplinkr.dev"
+    }
+  ],
+  "support": {
+    "source": "https://github.com/scherhak/uplinkr-api",
+    "issues": "https://github.com/scherhak/uplinkr-api/issues",
+    "docs": "https://uplinkr.dev/docs"
+  },
+  "require": {
+    "php": "^8.4",
+    "illuminate/support": "^12.0"
+  },
+  "config": {
+    "platform": {
+      "php": "8.4.0"
+    },
+    "sort-packages": true
+  },
+  "autoload": {
+    "psr-4": {
+      "Uplinkr\\": "src/"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Uplinkr\\UplinkrServiceProvider"
+      ]
+    }
+  },
+  "require-dev": {
+    "orchestra/testbench": "^10.0",
+    "phpunit/phpunit": "^11.0"
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Uplinkr\\Tests\\": "tests/"
+    }
+  }
+}
