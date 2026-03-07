@@ -24,9 +24,18 @@
     "issues": "https://github.com/scherhak/uplinkr-api/issues",
     "docs": "https://uplinkr.dev/docs"
   },
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/scherhak/uplinkr"
+    }
+  ],
   "require": {
     "php": "^8.4",
-    "illuminate/support": "^12.0"
+    "illuminate/http": "^12.0",
+    "illuminate/routing": "^12.0",
+    "illuminate/support": "^12.0",
+    "scherhak/uplinkr": "dev-main"
   },
   "config": {
     "platform": {
@@ -36,13 +45,13 @@
   },
   "autoload": {
     "psr-4": {
-      "Uplinkr\\": "src/"
+      "UplinkrApi\\": "src/"
     }
   },
   "extra": {
     "laravel": {
       "providers": [
-        "Uplinkr\\UplinkrServiceProvider"
+        "UplinkrApi\\UplinkrApiServiceProvider"
       ]
     }
   },
@@ -52,7 +61,7 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "Uplinkr\\Tests\\": "tests/"
+      "UplinkrApi\\Tests\\": "tests/"
     }
   }
 }

@@ -2,14 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Uplinkr;
+namespace UplinkrApi;
 
 use Illuminate\Support\ServiceProvider;
 
-class UplinkrServiceProvider extends ServiceProvider
+class UplinkrApiServiceProvider extends ServiceProvider
 {
     public function boot(): void
     {
+        $this->loadRoutesFrom(__DIR__ . '/../routes/api.php');
+
         $this->publishes([
             __DIR__ . '/../config/uplinkr-api.php' => config_path('uplinkr-api.php'),
         ], 'uplinkr-api-config');
