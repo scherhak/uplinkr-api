@@ -9,3 +9,19 @@ REST API for Uplinkr monitoring data - access probes, results, alerts and system
 - `POST /api/v1/probes`
 - `GET /api/v1/results`
 - `POST /api/v1/results`
+
+## Security (Baseline)
+
+- API key auth via `X-Uplinkr-Api-Key` (or optional Bearer token)
+- Configurable key list via `UPLINKR_API_KEYS`
+- Rate limiting via `throttle:uplinkr-api` (configurable)
+
+### .env example
+
+```env
+UPLINKR_API_AUTH_ENABLED=true
+UPLINKR_API_KEYS=replace-me-with-a-long-random-key
+UPLINKR_API_RATE_LIMIT_ENABLED=true
+UPLINKR_API_RATE_LIMIT_MAX_ATTEMPTS=60
+UPLINKR_API_RATE_LIMIT_DECAY_MINUTES=1
+```

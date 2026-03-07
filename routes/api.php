@@ -6,12 +6,23 @@ use Illuminate\Support\Facades\Route;
 use UplinkrApi\Http\Controllers\Api\ProbesController;
 use UplinkrApi\Http\Controllers\Api\ProjectsController;
 use UplinkrApi\Http\Controllers\Api\ResultsController;
+use UplinkrApi\Http\Middleware\AuthenticateApiKey;
 
 $prefix = (string) config('uplinkr-api.route.prefix', 'api/v1');
 $middleware = config('uplinkr-api.route.middleware', ['api']);
+$middleware = is_array($middleware) ? $middleware : [$middleware];
+
+if ((bool) config('uplinkr-api.security.api_key.enabled', true)) {
+    $middleware[] = AuthenticateApiKey::class;
+}
+
+if ((bool) config('uplinkr-api.security.rate_limit.enabled', true)) {
+    $rateLimitKey = (string) config('uplinkr-api.security.rate_limit.key', 'uplinkr-api');
+    $middleware[] = sprintf('throttle:%s', $rateLimitKey);
+}
 
 Route::prefix(trim($prefix, '/'))
-    ->middleware(is_array($middleware) ? $middleware : [$middleware])
+    ->middleware($middleware)
     ->group(function (): void {
         Route::get('/projects', [ProjectsController::class, 'index']);
         Route::post('/projects', [ProjectsController::class, 'store']);
