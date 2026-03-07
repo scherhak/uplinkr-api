@@ -33,6 +33,16 @@ Route::prefix(trim($prefix, '/'))
         Route::get('/probes', [ProbesController::class, 'index']);
         Route::post('/probes', [ProbesController::class, 'store']);
 
+        Route::get('/projects/{project}/probes', [ProbesController::class, 'projectIndex']);
+        Route::post('/projects/{project}/probes', [ProbesController::class, 'projectStore']);
+        Route::get('/projects/{project}/probes/{probeId}', [ProbesController::class, 'show']);
+        Route::patch('/projects/{project}/probes/{probeId}', [ProbesController::class, 'update']);
+        Route::delete('/projects/{project}/probes/{probeId}', [ProbesController::class, 'destroy']);
+
         Route::get('/results', [ResultsController::class, 'index']);
         Route::post('/results', [ResultsController::class, 'store']);
+        Route::get('/results/{resultId}', [ResultsController::class, 'show']);
+
+        Route::get('/projects/{project}/results', [ResultsController::class, 'projectIndex']);
+        Route::post('/projects/{project}/results', [ResultsController::class, 'projectStore']);
     });

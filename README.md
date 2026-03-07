@@ -13,10 +13,23 @@ REST API for Uplinkr monitoring data - access probes, results, alerts and system
 ### Probes
 - `GET /api/v1/probes`
 - `POST /api/v1/probes`
+- `GET /api/v1/projects/{project}/probes`
+- `POST /api/v1/projects/{project}/probes`
+- `GET /api/v1/projects/{project}/probes/{probeId}`
+- `PATCH /api/v1/projects/{project}/probes/{probeId}`
+- `DELETE /api/v1/projects/{project}/probes/{probeId}`
 
 ### Results
 - `GET /api/v1/results`
 - `POST /api/v1/results`
+- `GET /api/v1/results/{resultId}`
+- `GET /api/v1/projects/{project}/results`
+- `POST /api/v1/projects/{project}/results`
+
+## Best-Practice Notes
+
+- API implementation uses Uplinkr handler classes directly (not artisan command execution).
+- Reasons: lower overhead, no CLI output parsing, better testability and clearer error mapping.
 
 ## Security (Baseline)
 

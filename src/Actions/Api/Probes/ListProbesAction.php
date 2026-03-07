@@ -5,35 +5,23 @@ declare(strict_types=1);
 namespace UplinkrApi\Actions\Api\Probes;
 
 use Illuminate\Http\Request;
-use Uplinkr\Handler\Project\ListHandler;
+use UplinkrApi\Support\Api\ProjectProbeCatalog;
 
 class ListProbesAction
 {
     public function __construct(
-        private readonly ListHandler $listHandler,
+        private readonly ProjectProbeCatalog $catalog,
     ) {
     }
 
-    public function execute(Request $request): array
+    public function execute(Request $request, ?string $project = null): array
     {
-        $projectFilter = trim((string) $request->query('project', ''));
-        $probes = [];
-
-        foreach ($this->listHandler->allWithDetails() as $project) {
-            $projectName = (string) ($project['project'] ?? '');
-            if ($projectFilter !== '' && $projectName !== $projectFilter) {
-                continue;
-            }
-
-            foreach (($project['probes'] ?? []) as $probe) {
-                if (!is_array($probe)) {
-                    continue;
-                }
-
-                $probe['project'] = $probe['project'] ?? $projectName;
-                $probes[] = $probe;
-            }
+        $projectFilter = $project ?? trim((string) $request->query('project', ''));
+        if ($projectFilter === '') {
+            $projectFilter = null;
         }
+
+        $probes = $this->catalog->listProbes($projectFilter);
 
         return [
             'data' => $probes,
