@@ -1,7 +1,7 @@
 {
   "info": {
     "name": "Uplinkr API (v1)",
-    "description": "Collection for current Uplinkr API endpoints.",
+    "description": "Collection for all current Uplinkr API v1 endpoints.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "variable": [
@@ -10,7 +10,8 @@
     { "key": "api_key", "value": "replace-me" },
     { "key": "project", "value": "my-project" },
     { "key": "probe_id", "value": "replace-with-probe-id" },
-    { "key": "result_id", "value": "replace-with-result-id" }
+    { "key": "result_id", "value": "replace-with-result-id" },
+    { "key": "probe_url", "value": "https://example.com/health" }
   ],
   "item": [
     {
@@ -18,7 +19,11 @@
       "item": [
         {
           "name": "List Projects",
-          "request": { "method": "GET", "header": [{ "key": "X-Uplinkr-Api-Key", "value": "{{api_key}}" }], "url": "{{base_url}}{{api_prefix}}/projects" }
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "X-Uplinkr-Api-Key", "value": "{{api_key}}" }],
+            "url": "{{base_url}}{{api_prefix}}/projects"
+          }
         },
         {
           "name": "Create Project",
@@ -34,7 +39,11 @@
         },
         {
           "name": "Get Project",
-          "request": { "method": "GET", "header": [{ "key": "X-Uplinkr-Api-Key", "value": "{{api_key}}" }], "url": "{{base_url}}{{api_prefix}}/projects/{{project}}" }
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "X-Uplinkr-Api-Key", "value": "{{api_key}}" }],
+            "url": "{{base_url}}{{api_prefix}}/projects/{{project}}"
+          }
         },
         {
           "name": "Patch Project",
@@ -44,13 +53,17 @@
               { "key": "X-Uplinkr-Api-Key", "value": "{{api_key}}" },
               { "key": "Content-Type", "value": "application/json" }
             ],
-            "body": { "mode": "raw", "raw": "{\n  \"label\": \"Renamed Project\",\n  \"status\": \"enabled\"\n}" },
+            "body": { "mode": "raw", "raw": "{\n  \"label\": \"Renamed Project\",\n  \"description\": \"Updated via API\",\n  \"status\": \"enabled\"\n}" },
             "url": "{{base_url}}{{api_prefix}}/projects/{{project}}"
           }
         },
         {
           "name": "Delete Project",
-          "request": { "method": "DELETE", "header": [{ "key": "X-Uplinkr-Api-Key", "value": "{{api_key}}" }], "url": "{{base_url}}{{api_prefix}}/projects/{{project}}" }
+          "request": {
+            "method": "DELETE",
+            "header": [{ "key": "X-Uplinkr-Api-Key", "value": "{{api_key}}" }],
+            "url": "{{base_url}}{{api_prefix}}/projects/{{project}}"
+          }
         }
       ]
     },
@@ -59,11 +72,31 @@
       "item": [
         {
           "name": "List All Probes",
-          "request": { "method": "GET", "header": [{ "key": "X-Uplinkr-Api-Key", "value": "{{api_key}}" }], "url": "{{base_url}}{{api_prefix}}/probes" }
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "X-Uplinkr-Api-Key", "value": "{{api_key}}" }],
+            "url": "{{base_url}}{{api_prefix}}/probes"
+          }
+        },
+        {
+          "name": "Create Probe (Global)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "X-Uplinkr-Api-Key", "value": "{{api_key}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": { "mode": "raw", "raw": "{\n  \"project\": \"{{project}}\",\n  \"url\": \"{{probe_url}}\",\n  \"method\": \"GET\",\n  \"headers\": [\"Accept: application/json\"],\n  \"latency\": 1500\n}" },
+            "url": "{{base_url}}{{api_prefix}}/probes"
+          }
         },
         {
           "name": "List Project Probes",
-          "request": { "method": "GET", "header": [{ "key": "X-Uplinkr-Api-Key", "value": "{{api_key}}" }], "url": "{{base_url}}{{api_prefix}}/projects/{{project}}/probes" }
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "X-Uplinkr-Api-Key", "value": "{{api_key}}" }],
+            "url": "{{base_url}}{{api_prefix}}/projects/{{project}}/probes"
+          }
         },
         {
           "name": "Create Project Probe",
@@ -73,13 +106,17 @@
               { "key": "X-Uplinkr-Api-Key", "value": "{{api_key}}" },
               { "key": "Content-Type", "value": "application/json" }
             ],
-            "body": { "mode": "raw", "raw": "{\n  \"url\": \"https://example.com/health\",\n  \"method\": \"GET\",\n  \"headers\": [\"Accept: application/json\"],\n  \"latency\": 1500\n}" },
+            "body": { "mode": "raw", "raw": "{\n  \"url\": \"{{probe_url}}\",\n  \"method\": \"GET\",\n  \"headers\": [\"Accept: application/json\"],\n  \"latency\": 1500\n}" },
             "url": "{{base_url}}{{api_prefix}}/projects/{{project}}/probes"
           }
         },
         {
           "name": "Get Project Probe",
-          "request": { "method": "GET", "header": [{ "key": "X-Uplinkr-Api-Key", "value": "{{api_key}}" }], "url": "{{base_url}}{{api_prefix}}/projects/{{project}}/probes/{{probe_id}}" }
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "X-Uplinkr-Api-Key", "value": "{{api_key}}" }],
+            "url": "{{base_url}}{{api_prefix}}/projects/{{project}}/probes/{{probe_id}}"
+          }
         },
         {
           "name": "Patch Project Probe",
@@ -95,7 +132,11 @@
         },
         {
           "name": "Delete Project Probe",
-          "request": { "method": "DELETE", "header": [{ "key": "X-Uplinkr-Api-Key", "value": "{{api_key}}" }], "url": "{{base_url}}{{api_prefix}}/projects/{{project}}/probes/{{probe_id}}" }
+          "request": {
+            "method": "DELETE",
+            "header": [{ "key": "X-Uplinkr-Api-Key", "value": "{{api_key}}" }],
+            "url": "{{base_url}}{{api_prefix}}/projects/{{project}}/probes/{{probe_id}}"
+          }
         }
       ]
     },
@@ -104,27 +145,51 @@
       "item": [
         {
           "name": "List All Results",
-          "request": { "method": "GET", "header": [{ "key": "X-Uplinkr-Api-Key", "value": "{{api_key}}" }], "url": "{{base_url}}{{api_prefix}}/results?limit=100" }
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "X-Uplinkr-Api-Key", "value": "{{api_key}}" }],
+            "url": "{{base_url}}{{api_prefix}}/results?limit=100"
+          }
         },
         {
-          "name": "List Project Results",
-          "request": { "method": "GET", "header": [{ "key": "X-Uplinkr-Api-Key", "value": "{{api_key}}" }], "url": "{{base_url}}{{api_prefix}}/projects/{{project}}/results?limit=100" }
-        },
-        {
-          "name": "Execute Project Probe (Create Result)",
+          "name": "Create Result (Global)",
           "request": {
             "method": "POST",
             "header": [
               { "key": "X-Uplinkr-Api-Key", "value": "{{api_key}}" },
               { "key": "Content-Type", "value": "application/json" }
             ],
-            "body": { "mode": "raw", "raw": "{\n  \"url\": \"https://example.com/health\",\n  \"method\": \"GET\",\n  \"headers\": {\n    \"Accept\": \"application/json\"\n  },\n  \"latency\": 1500\n}" },
-            "url": "{{base_url}}{{api_prefix}}/projects/{{project}}/results"
+            "body": { "mode": "raw", "raw": "{\n  \"project\": \"{{project}}\",\n  \"url\": \"{{probe_url}}\",\n  \"method\": \"GET\",\n  \"headers\": {\n    \"Accept\": \"application/json\"\n  },\n  \"latency\": 1500\n}" },
+            "url": "{{base_url}}{{api_prefix}}/results"
           }
         },
         {
           "name": "Get Result",
-          "request": { "method": "GET", "header": [{ "key": "X-Uplinkr-Api-Key", "value": "{{api_key}}" }], "url": "{{base_url}}{{api_prefix}}/results/{{result_id}}" }
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "X-Uplinkr-Api-Key", "value": "{{api_key}}" }],
+            "url": "{{base_url}}{{api_prefix}}/results/{{result_id}}"
+          }
+        },
+        {
+          "name": "List Project Results",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "X-Uplinkr-Api-Key", "value": "{{api_key}}" }],
+            "url": "{{base_url}}{{api_prefix}}/projects/{{project}}/results?limit=100"
+          }
+        },
+        {
+          "name": "Create Project Result",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "X-Uplinkr-Api-Key", "value": "{{api_key}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": { "mode": "raw", "raw": "{\n  \"url\": \"{{probe_url}}\",\n  \"method\": \"GET\",\n  \"headers\": {\n    \"Accept\": \"application/json\"\n  },\n  \"latency\": 1500\n}" },
+            "url": "{{base_url}}{{api_prefix}}/projects/{{project}}/results"
+          }
         }
       ]
     }
