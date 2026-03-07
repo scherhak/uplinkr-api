@@ -26,6 +26,9 @@ Route::prefix(trim($prefix, '/'))
     ->group(function (): void {
         Route::get('/projects', [ProjectsController::class, 'index']);
         Route::post('/projects', [ProjectsController::class, 'store']);
+        Route::get('/projects/{project}', [ProjectsController::class, 'show']);
+        Route::patch('/projects/{project}', [ProjectsController::class, 'update']);
+        Route::delete('/projects/{project}', [ProjectsController::class, 'destroy']);
 
         Route::get('/probes', [ProbesController::class, 'index']);
         Route::post('/probes', [ProbesController::class, 'store']);

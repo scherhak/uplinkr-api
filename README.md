@@ -3,10 +3,18 @@ REST API for Uplinkr monitoring data - access probes, results, alerts and system
 
 ## API Endpoints (MVP)
 
+### Projects
 - `GET /api/v1/projects`
 - `POST /api/v1/projects`
+- `GET /api/v1/projects/{project}`
+- `PATCH /api/v1/projects/{project}`
+- `DELETE /api/v1/projects/{project}`
+
+### Probes
 - `GET /api/v1/probes`
 - `POST /api/v1/probes`
+
+### Results
 - `GET /api/v1/results`
 - `POST /api/v1/results`
 

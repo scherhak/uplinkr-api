@@ -30,7 +30,15 @@ class CreateProjectAction
         ])->validate();
 
         $projectName = (string) $data['project'];
-        $alreadyExists = $this->hasProject($projectName);
+        if ($this->hasProject($projectName)) {
+            return [
+                'status' => 409,
+                'data' => null,
+                'meta' => [
+                    'message' => 'Project already exists.',
+                ],
+            ];
+        }
 
         $this->initHandler->handle([
             'project' => $projectName,
@@ -39,12 +47,9 @@ class CreateProjectAction
         ]);
 
         return [
-            'status' => $alreadyExists ? 200 : 201,
+            'status' => 201,
             'data' => [
                 'project' => $projectName,
-            ],
-            'meta' => [
-                'created' => !$alreadyExists,
             ],
         ];
     }
