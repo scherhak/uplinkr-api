@@ -21,6 +21,10 @@ class UplinkrApiServiceProvider extends ServiceProvider
             __DIR__ . '/../config/uplinkr-api.php' => config_path('uplinkr-api.php'),
         ], 'uplinkr-api-config');
 
+        $this->publishes([
+            __DIR__ . '/../config/l5-swagger.php' => config_path('l5-swagger.php'),
+        ], 'uplinkr-api-swagger-config');
+
         $this->loadTranslationsFrom(__DIR__ . '/../resources/lang', 'uplinkr-api');
 
         $this->publishes([
@@ -31,6 +35,7 @@ class UplinkrApiServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->mergeConfigFrom(__DIR__ . '/../config/uplinkr-api.php', 'uplinkr-api');
+        $this->mergeConfigFrom(__DIR__ . '/../config/l5-swagger.php', 'l5-swagger');
     }
 
     private function configureRateLimiter(): void

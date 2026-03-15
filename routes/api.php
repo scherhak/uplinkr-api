@@ -5,7 +5,6 @@ declare(strict_types=1);
 use Illuminate\Support\Facades\Route;
 use UplinkrApi\Http\Controllers\Api\ProbesController;
 use UplinkrApi\Http\Controllers\Api\ProjectsController;
-use UplinkrApi\Http\Controllers\Api\ResultsController;
 use UplinkrApi\Http\Middleware\AuthenticateApiKey;
 
 $prefix = (string) config('uplinkr-api.route.prefix', 'api/v1');
@@ -39,10 +38,4 @@ Route::prefix(trim($prefix, '/'))
         Route::patch('/projects/{project}/probes/{probeId}', [ProbesController::class, 'update']);
         Route::delete('/projects/{project}/probes/{probeId}', [ProbesController::class, 'destroy']);
 
-        Route::get('/results', [ResultsController::class, 'index']);
-        Route::post('/results', [ResultsController::class, 'store']);
-        Route::get('/results/{resultId}', [ResultsController::class, 'show']);
-
-        Route::get('/projects/{project}/results', [ResultsController::class, 'projectIndex']);
-        Route::post('/projects/{project}/results', [ResultsController::class, 'projectStore']);
     });

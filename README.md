@@ -1,7 +1,7 @@
 # uplinkr-api
-REST API for Uplinkr monitoring data - access probes, results, alerts and system status programmatically.
+REST API for Uplinkr monitoring data.
 
-## API Endpoints (MVP)
+## API Endpoints
 
 ### Projects
 - `GET /api/v1/projects`
@@ -19,12 +19,19 @@ REST API for Uplinkr monitoring data - access probes, results, alerts and system
 - `PATCH /api/v1/projects/{project}/probes/{probeId}`
 - `DELETE /api/v1/projects/{project}/probes/{probeId}`
 
-### Results
-- `GET /api/v1/results`
-- `POST /api/v1/results`
-- `GET /api/v1/results/{resultId}`
-- `GET /api/v1/projects/{project}/results`
-- `POST /api/v1/projects/{project}/results`
+## Swagger UI
+
+- UI: `GET /api/docs`
+- OpenAPI JSON: `GET /api/docs/openapi`
+
+The package uses `darkaonline/l5-swagger` and scans the package `src/` directory for OpenAPI annotations.
+An example annotation is available on [ProjectsController.php](/Users/sascha/develop/uplinkr-api/src/Http/Controllers/Api/ProjectsController.php#L15).
+
+In a host Laravel app, generate the docs with:
+
+```bash
+php artisan l5-swagger:generate
+```
 
 ## Best-Practice Notes
 
@@ -36,6 +43,7 @@ REST API for Uplinkr monitoring data - access probes, results, alerts and system
 - API key auth via `X-Uplinkr-Api-Key` (or optional Bearer token)
 - Configurable key list via `UPLINKR_API_KEYS`
 - Rate limiting via `throttle:uplinkr-api` (configurable)
+- Swagger regeneration toggle via `UPLINKR_API_SWAGGER_GENERATE_ALWAYS`
 
 ### .env example
 
@@ -45,4 +53,5 @@ UPLINKR_API_KEYS=replace-me-with-a-long-random-key
 UPLINKR_API_RATE_LIMIT_ENABLED=true
 UPLINKR_API_RATE_LIMIT_MAX_ATTEMPTS=60
 UPLINKR_API_RATE_LIMIT_DECAY_MINUTES=1
+UPLINKR_API_SWAGGER_GENERATE_ALWAYS=true
 ```
