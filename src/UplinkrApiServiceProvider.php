@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace UplinkrApi;
 
+use Dedoc\Scramble\Scramble;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
@@ -14,6 +15,7 @@ class UplinkrApiServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->configureRateLimiter();
+        $this->configureApiDocs();
 
         $this->loadRoutesFrom(__DIR__ . '/../routes/api.php');
 
@@ -22,8 +24,8 @@ class UplinkrApiServiceProvider extends ServiceProvider
         ], 'uplinkr-api-config');
 
         $this->publishes([
-            __DIR__ . '/../config/l5-swagger.php' => config_path('l5-swagger.php'),
-        ], 'uplinkr-api-swagger-config');
+            __DIR__ . '/../config/scramble.php' => config_path('scramble.php'),
+        ], 'uplinkr-api-docs-config');
 
         $this->loadTranslationsFrom(__DIR__ . '/../resources/lang', 'uplinkr-api');
 
@@ -34,8 +36,10 @@ class UplinkrApiServiceProvider extends ServiceProvider
 
     public function register(): void
     {
+        Scramble::ignoreDefaultRoutes();
+
         $this->mergeConfigFrom(__DIR__ . '/../config/uplinkr-api.php', 'uplinkr-api');
-        $this->mergeConfigFrom(__DIR__ . '/../config/l5-swagger.php', 'l5-swagger');
+        $this->mergeConfigFrom(__DIR__ . '/../config/scramble.php', 'scramble');
     }
 
     private function configureRateLimiter(): void
@@ -58,5 +62,21 @@ class UplinkrApiServiceProvider extends ServiceProvider
 
             return $limit;
         });
+    }
+
+    private function configureApiDocs(): void
+    {
+        $apiPrefix = trim((string) config('uplinkr-api.route.prefix', 'api/v1'), '/');
+
+        Scramble::routes(static function ($route) use ($apiPrefix): bool {
+            $uri = trim((string) $route->uri(), '/');
+            $actionName = (string) $route->getActionName();
+
+            return str_starts_with($uri, $apiPrefix)
+                && str_contains($actionName, 'UplinkrApi\\Http\\Controllers\\Api\\');
+        });
+
+        Scramble::registerUiRoute(path: 'api/docs')->name('uplinkr-api.docs.ui');
+        Scramble::registerJsonSpecificationRoute(path: 'api/docs/openapi')->name('uplinkr-api.docs.openapi');
     }
 }

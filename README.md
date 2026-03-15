@@ -24,14 +24,10 @@ REST API for Uplinkr monitoring data.
 - UI: `GET /api/docs`
 - OpenAPI JSON: `GET /api/docs/openapi`
 
-The package uses `darkaonline/l5-swagger` and scans the package `src/` directory for OpenAPI annotations.
-An example annotation is available on [ProjectsController.php](/Users/sascha/develop/uplinkr-api/src/Http/Controllers/Api/ProjectsController.php#L15).
+The package uses `dedoc/scramble` and documents only the package API routes under `/api/v1`.
+The example documentation metadata is implemented with Scramble PHP attributes in [ProjectsController.php](/Users/sascha/develop/uplinkr-api/src/Http/Controllers/Api/ProjectsController.php#L1).
 
-In a host Laravel app, generate the docs with:
-
-```bash
-php artisan l5-swagger:generate
-```
+Scramble renders docs dynamically. No generate step is required.
 
 ## Best-Practice Notes
 
@@ -43,7 +39,7 @@ php artisan l5-swagger:generate
 - API key auth via `X-Uplinkr-Api-Key` (or optional Bearer token)
 - Configurable key list via `UPLINKR_API_KEYS`
 - Rate limiting via `throttle:uplinkr-api` (configurable)
-- Swagger regeneration toggle via `UPLINKR_API_SWAGGER_GENERATE_ALWAYS`
+- Docs route protection can be customized via the host app's Scramble configuration or `viewApiDocs` gate.
 
 ### .env example
 
@@ -53,5 +49,4 @@ UPLINKR_API_KEYS=replace-me-with-a-long-random-key
 UPLINKR_API_RATE_LIMIT_ENABLED=true
 UPLINKR_API_RATE_LIMIT_MAX_ATTEMPTS=60
 UPLINKR_API_RATE_LIMIT_DECAY_MINUTES=1
-UPLINKR_API_SWAGGER_GENERATE_ALWAYS=true
 ```
