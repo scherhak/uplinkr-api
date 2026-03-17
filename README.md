@@ -19,6 +19,20 @@ REST API for Uplinkr monitoring data.
 - `PATCH /api/v1/projects/{project}/probes/{probeId}`
 - `DELETE /api/v1/projects/{project}/probes/{probeId}`
 
+### Settings
+- `GET /api/v1/settings/iam-alive`
+- `PATCH /api/v1/settings/iam-alive`
+
+Example `PATCH /api/v1/settings/iam-alive` body:
+
+```json
+{
+  "enabled": true,
+  "interval_hours": 6,
+  "channels": ["mail", "webhook"]
+}
+```
+
 ## Swagger UI
 
 - UI: `GET /api/docs`
@@ -33,6 +47,7 @@ Scramble renders docs dynamically. No generate step is required.
 
 - API implementation uses Uplinkr handler classes directly (not artisan command execution).
 - Reasons: lower overhead, no CLI output parsing, better testability and clearer error mapping.
+- The settings API is implemented directly against `Uplinkr\\Storage\\FileSettingsStorage`, because the underlying resource is a single global settings document and does not benefit from going through the CLI command layer.
 
 ## Security (Baseline)
 

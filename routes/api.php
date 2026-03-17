@@ -5,6 +5,7 @@ declare(strict_types=1);
 use Illuminate\Support\Facades\Route;
 use UplinkrApi\Http\Controllers\Api\ProbesController;
 use UplinkrApi\Http\Controllers\Api\ProjectsController;
+use UplinkrApi\Http\Controllers\Api\SettingsController;
 use UplinkrApi\Http\Middleware\AuthenticateApiKey;
 
 $prefix = (string) config('uplinkr-api.route.prefix', 'api/v1');
@@ -37,5 +38,8 @@ Route::prefix(trim($prefix, '/'))
         Route::get('/projects/{project}/probes/{probeId}', [ProbesController::class, 'show']);
         Route::patch('/projects/{project}/probes/{probeId}', [ProbesController::class, 'update']);
         Route::delete('/projects/{project}/probes/{probeId}', [ProbesController::class, 'destroy']);
+
+        Route::get('/settings/iam-alive', [SettingsController::class, 'showIamAlive']);
+        Route::patch('/settings/iam-alive', [SettingsController::class, 'updateIamAlive']);
 
     });
