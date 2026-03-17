@@ -4,49 +4,41 @@ declare(strict_types=1);
 
 namespace UplinkrApi\Tests\Feature;
 
+use UplinkrApi\Tests\Support\ApiTestData;
 use UplinkrApi\Tests\TestCase;
 
 class SettingsApiTest extends TestCase
 {
-    public function test_can_read_default_iam_alive_settings(): void
+    public function test_get_iam_alive_settings_returns_current_settings(): void
     {
-        $response = $this
-            ->withHeaders(['X-Uplinkr-Api-Key' => 'test-api-key'])
-            ->getJson('/api/v1/settings/iam-alive');
+        $this->seedIamAliveSettings(ApiTestData::iamAlivePayload());
 
-        $response->assertOk()->assertJson([
-            'data' => [
-                'enabled' => false,
-                'interval_hours' => 24,
-                'channels' => ['mail'],
-                'last_sent_at' => null,
-                'last_attempted_at' => null,
-            ],
-        ]);
+        $this->withHeaders($this->apiHeaders())
+            ->getJson('/api/v1/settings/iam-alive')
+            ->assertOk()
+            ->assertJson([
+                'data' => [
+                    'enabled' => true,
+                    'interval_hours' => 6,
+                    'channels' => ['mail', 'webhook'],
+                ],
+            ]);
     }
 
-    public function test_can_update_iam_alive_settings(): void
+    public function test_patch_iam_alive_settings_updates_current_settings(): void
     {
-        $payload = [
-            'enabled' => true,
-            'interval_hours' => 6,
-            'channels' => ['mail', 'webhook'],
-        ];
+        $this->withHeaders($this->apiHeaders())
+            ->patchJson('/api/v1/settings/iam-alive', ApiTestData::iamAlivePayload())
+            ->assertOk()
+            ->assertJson([
+                'data' => [
+                    'enabled' => true,
+                    'interval_hours' => 6,
+                    'channels' => ['mail', 'webhook'],
+                ],
+            ]);
 
-        $response = $this
-            ->withHeaders(['X-Uplinkr-Api-Key' => 'test-api-key'])
-            ->patchJson('/api/v1/settings/iam-alive', $payload);
-
-        $response->assertOk()->assertJson([
-            'data' => [
-                'enabled' => true,
-                'interval_hours' => 6,
-                'channels' => ['mail', 'webhook'],
-            ],
-        ]);
-
-        $this
-            ->withHeaders(['X-Uplinkr-Api-Key' => 'test-api-key'])
+        $this->withHeaders($this->apiHeaders())
             ->getJson('/api/v1/settings/iam-alive')
             ->assertOk()
             ->assertJson([
