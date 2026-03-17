@@ -1,8 +1,8 @@
 <p align="center">
-  <img src=".github/uplinkr-mascot-200.png" alt="Uplinkr Logo" width="200">
+  <img src=".github/uplinkr-api-mascot-150.png" alt="Uplinkr Logo" width="270">
 </p>
 
-<h1 align="center">Uplinkr API</h1>
+<h1 align="center" style="margin-top: -3rem;">Uplinkr API</h1>
 
 <p align="center">
   REST API for Uplinkr monitoring projects, probes, and global settings.<br>
