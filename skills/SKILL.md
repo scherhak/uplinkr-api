@@ -1,7 +1,7 @@
 # SKILL.md
 
 version: 1
-project: Uplinkr
+project: Uplinkr-api
 maintainer: Sascha Scherhak
 license: MIT
 
@@ -9,11 +9,10 @@ license: MIT
 
 ## Core Expertise
 
-- PHP 8.4
+- PHP 8.4 and up
 - Laravel 12
 - Composer package development
 - CLI-first architecture
-- File-based JSON storage (MVP phase)
 - Docker / Podman containerization
 - Git & GitHub workflows
 - Semantic Versioning (SemVer)
