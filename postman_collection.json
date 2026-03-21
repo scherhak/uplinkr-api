@@ -167,6 +167,36 @@
           }
         }
       ]
+    },
+    {
+      "name": "Settings",
+      "item": [
+        {
+          "name": "Get Iam Alive Settings",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "X-Uplinkr-Api-Key", "value": "{{api_key}}" }
+            ],
+            "url": "{{base_url}}{{api_prefix}}/settings/iam-alive"
+          }
+        },
+        {
+          "name": "Patch Iam Alive Settings",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "X-Uplinkr-Api-Key", "value": "{{api_key}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"enabled\": true,\n  \"interval_hours\": 6,\n  \"channels\": [\"mail\", \"webhook\"]\n}"
+            },
+            "url": "{{base_url}}{{api_prefix}}/settings/iam-alive"
+          }
+        }
+      ]
     }
   ]
 }
