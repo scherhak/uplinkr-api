@@ -25,7 +25,8 @@ class GetResultAction
      */
     public function __construct(
         private readonly ResultReader $resultReader,
-    ) {
+    )
+    {
     }
 
     /**

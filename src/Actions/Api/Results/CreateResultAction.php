@@ -28,9 +28,10 @@ class CreateResultAction
      * @return void
      */
     public function __construct(
-        private readonly UrlHandler $urlHandler,
+        private readonly UrlHandler          $urlHandler,
         private readonly ProjectProbeCatalog $catalog,
-    ) {
+    )
+    {
     }
 
     /**
@@ -52,7 +53,7 @@ class CreateResultAction
             'latency' => ['nullable', 'integer', 'min:1'],
         ])->validate();
 
-        $projectName = $project ?? (isset($data['project']) ? (string) $data['project'] : null);
+        $projectName = $project ?? (isset($data['project']) ? (string)$data['project'] : null);
         if (is_string($projectName) && $projectName !== '' && !$this->catalog->hasProject($projectName)) {
             return [
                 'status' => 404,
@@ -65,9 +66,9 @@ class CreateResultAction
 
         $result = $this->urlHandler
             ->with([
-                'url' => (string) $data['url'],
+                'url' => (string)$data['url'],
                 'project' => $projectName,
-                'method' => (string) ($data['method'] ?? 'GET'),
+                'method' => (string)($data['method'] ?? 'GET'),
                 'headers' => $this->normalizeHeaders($data['headers'] ?? []),
                 'body' => $data['body'] ?? null,
                 'latency' => $data['latency'] ?? null,
@@ -110,7 +111,7 @@ class CreateResultAction
             }
 
             if (is_string($key) && is_scalar($value)) {
-                $normalized[] = sprintf('%s: %s', $key, (string) $value);
+                $normalized[] = sprintf('%s: %s', $key, (string)$value);
             }
         }
 

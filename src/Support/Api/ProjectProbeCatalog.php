@@ -25,7 +25,8 @@ class ProjectProbeCatalog
      */
     public function __construct(
         private readonly ListHandler $listHandler,
-    ) {
+    )
+    {
     }
 
     /**
@@ -37,7 +38,7 @@ class ProjectProbeCatalog
     public function hasProject(string $projectName): bool
     {
         foreach ($this->listHandler->allWithDetails() as $project) {
-            if ((string) ($project['project'] ?? '') === $projectName) {
+            if ((string)($project['project'] ?? '') === $projectName) {
                 return true;
             }
         }
@@ -56,7 +57,7 @@ class ProjectProbeCatalog
         $probes = [];
 
         foreach ($this->listHandler->allWithDetails() as $project) {
-            $currentProject = (string) ($project['project'] ?? '');
+            $currentProject = (string)($project['project'] ?? '');
             if ($projectName !== null && $currentProject !== $projectName) {
                 continue;
             }
@@ -85,7 +86,7 @@ class ProjectProbeCatalog
     public function findProbe(string $projectName, string $probeId): ?array
     {
         foreach ($this->listProbes($projectName) as $probe) {
-            if ((string) ($probe['probe_id'] ?? '') === $probeId) {
+            if ((string)($probe['probe_id'] ?? '') === $probeId) {
                 return $probe;
             }
         }
@@ -102,8 +103,8 @@ class ProjectProbeCatalog
      */
     public function buildProbeId(string $projectName, array $probe): string
     {
-        $method = strtoupper((string) ($probe['method'] ?? 'GET'));
-        $url = (string) ($probe['url'] ?? '');
+        $method = strtoupper((string)($probe['method'] ?? 'GET'));
+        $url = (string)($probe['url'] ?? '');
 
         return sha1($projectName . '|' . $method . '|' . $url);
     }
@@ -118,7 +119,7 @@ class ProjectProbeCatalog
     private function normalizeProbe(array $probe, string $projectName): array
     {
         $probe['project'] = $probe['project'] ?? $projectName;
-        $probe['method'] = strtoupper((string) ($probe['method'] ?? 'GET'));
+        $probe['method'] = strtoupper((string)($probe['method'] ?? 'GET'));
         if (!array_key_exists('headers', $probe) && array_key_exists('header', $probe)) {
             $probe['headers'] = $probe['header'];
         }

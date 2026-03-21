@@ -25,7 +25,8 @@ class ListProbesAction
      */
     public function __construct(
         private readonly ProjectProbeCatalog $catalog,
-    ) {
+    )
+    {
     }
 
     /**
@@ -37,7 +38,7 @@ class ListProbesAction
      */
     public function execute(Request $request, ?string $project = null): array
     {
-        $projectFilter = $project ?? trim((string) $request->query('project', ''));
+        $projectFilter = $project ?? trim((string)$request->query('project', ''));
         if ($projectFilter === '') {
             $projectFilter = null;
         }

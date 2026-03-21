@@ -27,7 +27,8 @@ class ResultReader
      */
     public function __construct(
         private readonly UplinkrConfig $config,
-    ) {
+    )
+    {
     }
 
     /**
@@ -50,8 +51,7 @@ class ResultReader
 
         $files = array_values(array_filter(
             $disk->allFiles($storagePath),
-            static fn (string $file): bool =>
-                str_contains($file, $probeResultsPath)
+            static fn(string $file): bool => str_contains($file, $probeResultsPath)
                 && str_ends_with($file, $fileExtension)
         ));
 
@@ -60,7 +60,7 @@ class ResultReader
         $results = [];
 
         foreach ($files as $file) {
-            $content = trim((string) $disk->get($file));
+            $content = trim((string)$disk->get($file));
             if ($content === '') {
                 continue;
             }
@@ -80,8 +80,8 @@ class ResultReader
                     continue;
                 }
 
-                $project = (string) Arr::get($entry, 'settings.project', '');
-                $url = (string) Arr::get($entry, 'settings.url', '');
+                $project = (string)Arr::get($entry, 'settings.project', '');
+                $url = (string)Arr::get($entry, 'settings.url', '');
 
                 if ($projectFilter !== null && $projectFilter !== '' && $project !== $projectFilter) {
                     continue;
@@ -112,7 +112,7 @@ class ResultReader
     public function findByProbeResultId(string $probeResultId): ?array
     {
         foreach ($this->list(limit: 0) as $entry) {
-            if ((string) Arr::get($entry, 'probe_id', '') === $probeResultId) {
+            if ((string)Arr::get($entry, 'probe_id', '') === $probeResultId) {
                 return $entry;
             }
         }

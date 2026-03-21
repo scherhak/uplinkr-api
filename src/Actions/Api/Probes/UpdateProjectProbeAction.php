@@ -31,9 +31,10 @@ class UpdateProjectProbeAction
      */
     public function __construct(
         private readonly ProjectProbeCatalog $catalog,
-        private readonly RemoveProbeHandler $removeProbeHandler,
-        private readonly AddProbeHandler $addProbeHandler,
-    ) {
+        private readonly RemoveProbeHandler  $removeProbeHandler,
+        private readonly AddProbeHandler     $addProbeHandler,
+    )
+    {
     }
 
     /**
@@ -67,9 +68,9 @@ class UpdateProjectProbeAction
         ])->validate();
 
         $updatedProbe = [
-            'url' => (string) ($data['url'] ?? $existing['url']),
+            'url' => (string)($data['url'] ?? $existing['url']),
             'project' => $project,
-            'method' => (string) ($data['method'] ?? $existing['method'] ?? 'GET'),
+            'method' => (string)($data['method'] ?? $existing['method'] ?? 'GET'),
             'headers' => $data['headers'] ?? ($existing['headers'] ?? []),
             'body' => array_key_exists('body', $data) ? $data['body'] : ($existing['body'] ?? null),
             'latency' => array_key_exists('latency', $data) ? $data['latency'] : ($existing['latency'] ?? null),
@@ -77,7 +78,7 @@ class UpdateProjectProbeAction
 
         $this->removeProbeHandler->handle([
             'project' => $project,
-            'url' => (string) $existing['url'],
+            'url' => (string)$existing['url'],
         ]);
 
         $this->addProbeHandler->handle($updatedProbe);

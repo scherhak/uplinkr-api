@@ -27,7 +27,7 @@ class AuthenticateApiKey
      */
     public function handle(Request $request, Closure $next): mixed
     {
-        if (!(bool) config('uplinkr-api.security.api_key.enabled', true)) {
+        if (!(bool)config('uplinkr-api.security.api_key.enabled', true)) {
             return $next($request);
         }
 
@@ -62,7 +62,7 @@ class AuthenticateApiKey
      */
     private function resolveProvidedKey(Request $request): ?string
     {
-        $header = (string) config('uplinkr-api.security.api_key.header', 'X-Uplinkr-Api-Key');
+        $header = (string)config('uplinkr-api.security.api_key.header', 'X-Uplinkr-Api-Key');
         $header = trim($header);
 
         if ($header !== '') {
@@ -72,7 +72,7 @@ class AuthenticateApiKey
             }
         }
 
-        if ((bool) config('uplinkr-api.security.api_key.accept_bearer_token', true)) {
+        if ((bool)config('uplinkr-api.security.api_key.accept_bearer_token', true)) {
             $token = $request->bearerToken();
             if (is_string($token) && trim($token) !== '') {
                 return trim($token);

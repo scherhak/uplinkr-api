@@ -27,7 +27,8 @@ class UpdateIamAliveSettingsAction
      */
     public function __construct(
         private readonly FileSettingsStorage $settingsStorage,
-    ) {
+    )
+    {
     }
 
     /**
@@ -56,8 +57,8 @@ class UpdateIamAliveSettingsAction
             ];
         }
 
-        $enabled = array_key_exists('enabled', $data) ? (bool) $data['enabled'] : null;
-        $intervalHours = array_key_exists('interval_hours', $data) ? (int) $data['interval_hours'] : null;
+        $enabled = array_key_exists('enabled', $data) ? (bool)$data['enabled'] : null;
+        $intervalHours = array_key_exists('interval_hours', $data) ? (int)$data['interval_hours'] : null;
         $channels = array_key_exists('channels', $data) ? array_values(array_unique($data['channels'])) : null;
 
         if ($enabled === null && ($intervalHours !== null || $channels !== null)) {

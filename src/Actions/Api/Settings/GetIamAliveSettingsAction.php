@@ -25,7 +25,8 @@ class GetIamAliveSettingsAction
      */
     public function __construct(
         private readonly FileSettingsStorage $settingsStorage,
-    ) {
+    )
+    {
     }
 
     /**

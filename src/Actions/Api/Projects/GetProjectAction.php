@@ -24,7 +24,8 @@ class GetProjectAction
      */
     public function __construct(
         private readonly ListHandler $listHandler,
-    ) {
+    )
+    {
     }
 
     /**
@@ -36,7 +37,7 @@ class GetProjectAction
     public function execute(string $project): array
     {
         foreach ($this->listHandler->allWithDetails() as $item) {
-            if ((string) ($item['project'] ?? '') === $project) {
+            if ((string)($item['project'] ?? '') === $project) {
                 return [
                     'data' => $item,
                 ];

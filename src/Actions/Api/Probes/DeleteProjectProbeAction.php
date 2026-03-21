@@ -26,8 +26,9 @@ class DeleteProjectProbeAction
      */
     public function __construct(
         private readonly ProjectProbeCatalog $catalog,
-        private readonly RemoveProbeHandler $removeProbeHandler,
-    ) {
+        private readonly RemoveProbeHandler  $removeProbeHandler,
+    )
+    {
     }
 
     /**
@@ -52,7 +53,7 @@ class DeleteProjectProbeAction
 
         $this->removeProbeHandler->handle([
             'project' => $project,
-            'url' => (string) $probe['url'],
+            'url' => (string)$probe['url'],
         ]);
 
         return [

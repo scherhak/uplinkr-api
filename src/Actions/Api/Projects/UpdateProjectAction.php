@@ -27,7 +27,8 @@ class UpdateProjectAction
      */
     public function __construct(
         private readonly UpdateHandler $updateHandler,
-    ) {
+    )
+    {
     }
 
     /**

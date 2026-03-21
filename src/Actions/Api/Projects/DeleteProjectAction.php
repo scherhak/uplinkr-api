@@ -25,7 +25,8 @@ class DeleteProjectAction
      */
     public function __construct(
         private readonly ArchiveHandler $archiveHandler,
-    ) {
+    )
+    {
     }
 
     /**

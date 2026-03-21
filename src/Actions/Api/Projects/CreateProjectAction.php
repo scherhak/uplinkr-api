@@ -31,7 +31,8 @@ class CreateProjectAction
     public function __construct(
         private readonly InitHandler $initHandler,
         private readonly ListHandler $listHandler,
-    ) {
+    )
+    {
     }
 
     /**
@@ -49,7 +50,7 @@ class CreateProjectAction
             'description' => ['nullable', 'string'],
         ])->validate();
 
-        $projectName = (string) $data['project'];
+        $projectName = (string)$data['project'];
         if ($this->hasProject($projectName)) {
             return [
                 'status' => 409,
@@ -83,7 +84,7 @@ class CreateProjectAction
     private function hasProject(string $project): bool
     {
         foreach ($this->listHandler->allWithDetails() as $item) {
-            if ((string) ($item['project'] ?? '') === $project) {
+            if ((string)($item['project'] ?? '') === $project) {
                 return true;
             }
         }

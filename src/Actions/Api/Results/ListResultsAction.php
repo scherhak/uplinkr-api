@@ -26,7 +26,8 @@ class ListResultsAction
      */
     public function __construct(
         private readonly ResultReader $resultReader,
-    ) {
+    )
+    {
     }
 
     /**
@@ -39,9 +40,9 @@ class ListResultsAction
      */
     public function execute(Request $request, ?string $project = null): array
     {
-        $projectFilter = $project ?? trim((string) $request->query('project', ''));
-        $urlFilter = trim((string) $request->query('url', ''));
-        $limit = max(1, min(500, (int) $request->query('limit', 100)));
+        $projectFilter = $project ?? trim((string)$request->query('project', ''));
+        $urlFilter = trim((string)$request->query('url', ''));
+        $limit = max(1, min(500, (int)$request->query('limit', 100)));
 
         $results = $this->resultReader->list(
             projectFilter: $projectFilter !== '' ? $projectFilter : null,

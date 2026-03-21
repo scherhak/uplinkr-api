@@ -28,9 +28,10 @@ class CreateProbeAction
      * @return void
      */
     public function __construct(
-        private readonly AddProbeHandler $addProbeHandler,
+        private readonly AddProbeHandler     $addProbeHandler,
         private readonly ProjectProbeCatalog $catalog,
-    ) {
+    )
+    {
     }
 
     /**
@@ -53,7 +54,7 @@ class CreateProbeAction
             'latency' => ['nullable', 'integer', 'min:1'],
         ])->validate();
 
-        $projectName = $project ?? (isset($data['project']) ? (string) $data['project'] : '');
+        $projectName = $project ?? (isset($data['project']) ? (string)$data['project'] : '');
         if ($projectName === '' || !$this->catalog->hasProject($projectName)) {
             return [
                 'status' => 404,
@@ -64,12 +65,12 @@ class CreateProbeAction
             ];
         }
 
-        $url = (string) $data['url'];
+        $url = (string)$data['url'];
         $existing = $this->catalog->listProbes($projectName);
         $alreadyExists = false;
 
         foreach ($existing as $probeItem) {
-            if ((string) ($probeItem['url'] ?? '') === $url) {
+            if ((string)($probeItem['url'] ?? '') === $url) {
                 $alreadyExists = true;
                 break;
             }
@@ -78,7 +79,7 @@ class CreateProbeAction
         $this->addProbeHandler->handle([
             'url' => $url,
             'project' => $projectName,
-            'method' => (string) ($data['method'] ?? 'GET'),
+            'method' => (string)($data['method'] ?? 'GET'),
             'headers' => $data['headers'] ?? [],
             'body' => $data['body'] ?? null,
             'latency' => $data['latency'] ?? null,
@@ -90,7 +91,7 @@ class CreateProbeAction
                 'project' => $projectName,
                 'url' => $url,
                 'probe_id' => $this->catalog->buildProbeId($projectName, [
-                    'method' => (string) ($data['method'] ?? 'GET'),
+                    'method' => (string)($data['method'] ?? 'GET'),
                     'url' => $url,
                 ]),
             ],

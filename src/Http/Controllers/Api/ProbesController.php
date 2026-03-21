@@ -118,7 +118,7 @@ class ProbesController
      */
     private function respond(array $result): JsonResponse
     {
-        $status = (int) ($result['status'] ?? 200);
+        $status = (int)($result['status'] ?? 200);
         unset($result['status']);
 
         if ($status === 204) {

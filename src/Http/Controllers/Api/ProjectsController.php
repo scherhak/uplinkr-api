@@ -10,6 +10,7 @@ use Dedoc\Scramble\Attributes\QueryParameter;
 use Dedoc\Scramble\Attributes\Response;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use JsonException;
 use UplinkrApi\Actions\Api\Projects\CreateProjectAction;
 use UplinkrApi\Actions\Api\Projects\DeleteProjectAction;
 use UplinkrApi\Actions\Api\Projects\GetProjectAction;
@@ -49,6 +50,7 @@ class ProjectsController
      * @param Request $request The incoming HTTP request containing the project payload.
      * @param CreateProjectAction $action The action that validates and creates the project.
      * @return JsonResponse The JSON response describing the create result.
+     * @throws JsonException
      */
     public function store(Request $request, CreateProjectAction $action): JsonResponse
     {
@@ -74,6 +76,7 @@ class ProjectsController
      * @param Request $request The incoming HTTP request containing partial update data.
      * @param UpdateProjectAction $action The action that applies the project updates.
      * @return JsonResponse The JSON response describing the update result.
+     * @throws JsonException
      */
     public function update(string $project, Request $request, UpdateProjectAction $action): JsonResponse
     {
@@ -100,7 +103,7 @@ class ProjectsController
      */
     private function respond(array $result): JsonResponse
     {
-        $status = (int) ($result['status'] ?? 200);
+        $status = (int)($result['status'] ?? 200);
         unset($result['status']);
 
         if ($status === 204) {

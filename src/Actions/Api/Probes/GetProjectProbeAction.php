@@ -24,7 +24,8 @@ class GetProjectProbeAction
      */
     public function __construct(
         private readonly ProjectProbeCatalog $catalog,
-    ) {
+    )
+    {
     }
 
     /**

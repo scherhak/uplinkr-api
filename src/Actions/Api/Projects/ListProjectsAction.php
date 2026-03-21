@@ -25,7 +25,8 @@ class ListProjectsAction
      */
     public function __construct(
         private readonly ListHandler $listHandler,
-    ) {
+    )
+    {
     }
 
     /**
@@ -36,12 +37,11 @@ class ListProjectsAction
      */
     public function execute(Request $request): array
     {
-        $projectFilter = trim((string) $request->query('project', ''));
+        $projectFilter = trim((string)$request->query('project', ''));
         $projects = $this->listHandler->allWithDetails();
 
         if ($projectFilter !== '') {
-            $projects = array_values(array_filter($projects, static fn (array $project): bool =>
-                (string) ($project['project'] ?? '') === $projectFilter
+            $projects = array_values(array_filter($projects, static fn(array $project): bool => (string)($project['project'] ?? '') === $projectFilter
             ));
         }
 
