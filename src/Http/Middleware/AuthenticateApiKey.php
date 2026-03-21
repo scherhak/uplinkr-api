@@ -8,10 +8,22 @@ use Closure;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
+/**
+ * Class AuthenticateApiKey
+ * @package UplinkrApi\Http\Middleware
+ *
+ * Protects API routes with configured API keys and optional Bearer token support.
+ *
+ * @author Sascha Scherhak <sascha@uplinkr.dev>
+ */
 class AuthenticateApiKey
 {
     /**
+     * Validates the configured API authentication requirements for the current request.
+     *
+     * @param Request $request The incoming HTTP request to authorize.
      * @param Closure(Request): mixed $next
+     * @return mixed The next middleware result or an unauthorized JSON response.
      */
     public function handle(Request $request, Closure $next): mixed
     {
@@ -42,6 +54,12 @@ class AuthenticateApiKey
         return $this->unauthorizedResponse();
     }
 
+    /**
+     * Resolves the API key provided either through the configured header or Bearer token.
+     *
+     * @param Request $request The incoming HTTP request containing authentication headers.
+     * @return string|null The provided API key or null when no supported credential was supplied.
+     */
     private function resolveProvidedKey(Request $request): ?string
     {
         $header = (string) config('uplinkr-api.security.api_key.header', 'X-Uplinkr-Api-Key');
@@ -64,6 +82,11 @@ class AuthenticateApiKey
         return null;
     }
 
+    /**
+     * Builds the standard unauthorized JSON response for failed authentication.
+     *
+     * @return JsonResponse The unauthorized response payload.
+     */
     private function unauthorizedResponse(): JsonResponse
     {
         return response()->json([

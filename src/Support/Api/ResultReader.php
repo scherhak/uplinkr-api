@@ -9,14 +9,34 @@ use Illuminate\Support\Facades\Storage;
 use JsonException;
 use Uplinkr\Objects\Config\UplinkrConfig;
 
+/**
+ * Class ResultReader
+ * @package UplinkrApi\Support\Api
+ *
+ * Reads probe result files from Uplinkr storage and exposes filtered lookup methods.
+ *
+ * @author Sascha Scherhak <sascha@uplinkr.dev>
+ */
 class ResultReader
 {
+    /**
+     * Initializes the result reader with the Uplinkr configuration dependency.
+     *
+     * @param UplinkrConfig $config The configuration used to resolve storage paths and file formats.
+     * @return void
+     */
     public function __construct(
         private readonly UplinkrConfig $config,
     ) {
     }
 
     /**
+     * Lists stored probe results with optional project, URL, and limit filtering.
+     *
+     * @param string|null $projectFilter An optional project filter.
+     * @param string|null $urlFilter An optional URL filter.
+     * @param int $limit The maximum number of results to return, capped internally.
+     * @return array The filtered result collection.
      * @throws JsonException
      */
     public function list(?string $projectFilter = null, ?string $urlFilter = null, int $limit = 100): array
@@ -83,6 +103,10 @@ class ResultReader
     }
 
     /**
+     * Returns a single stored result by its probe result identifier.
+     *
+     * @param string $probeResultId The API-specific result identifier.
+     * @return array|null The matched result payload or null when no result is found.
      * @throws JsonException
      */
     public function findByProbeResultId(string $probeResultId): ?array

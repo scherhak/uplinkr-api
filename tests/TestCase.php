@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace UplinkrApi\Tests;
 
-use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\Facades\Storage;
 use Uplinkr\Handler\Probe\ResultHandler;
 use Uplinkr\Handler\Probe\UrlHandler;

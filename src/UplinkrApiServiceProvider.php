@@ -10,8 +10,22 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 
+/**
+ * Class UplinkrApiServiceProvider
+ * @package UplinkrApi
+ *
+ * Registers configuration, routes, documentation endpoints, translations,
+ * and rate limiting for the Uplinkr API package.
+ *
+ * @author Sascha Scherhak <sascha@uplinkr.dev>
+ */
 class UplinkrApiServiceProvider extends ServiceProvider
 {
+    /**
+     * Boots the package services, routes, publishable assets, and documentation configuration.
+     *
+     * @return void
+     */
     public function boot(): void
     {
         $this->configureRateLimiter();
@@ -34,6 +48,11 @@ class UplinkrApiServiceProvider extends ServiceProvider
         ], 'uplinkr-api-lang');
     }
 
+    /**
+     * Registers package configuration and Scramble route discovery behavior.
+     *
+     * @return void
+     */
     public function register(): void
     {
         Scramble::ignoreDefaultRoutes();
@@ -42,6 +61,11 @@ class UplinkrApiServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(__DIR__ . '/../config/scramble.php', 'scramble');
     }
 
+    /**
+     * Configures the named rate limiter used by the API routes.
+     *
+     * @return void
+     */
     private function configureRateLimiter(): void
     {
         $key = (string) config('uplinkr-api.security.rate_limit.key', 'uplinkr-api');
@@ -64,6 +88,11 @@ class UplinkrApiServiceProvider extends ServiceProvider
         });
     }
 
+    /**
+     * Configures the package API documentation routes and route discovery rules.
+     *
+     * @return void
+     */
     private function configureApiDocs(): void
     {
         $apiPrefix = trim((string) config('uplinkr-api.route.prefix', 'api/v1'), '/');

@@ -8,14 +8,33 @@ use Illuminate\Http\Request;
 use JsonException;
 use UplinkrApi\Support\Api\ResultReader;
 
+/**
+ * Class ListResultsAction
+ * @package UplinkrApi\Actions\Api\Results
+ *
+ * Lists stored probe results with optional project and URL filtering.
+ *
+ * @author Sascha Scherhak <sascha@uplinkr.dev>
+ */
 class ListResultsAction
 {
+    /**
+     * Initializes the action with the result reader dependency.
+     *
+     * @param ResultReader $resultReader The reader used to enumerate stored probe results.
+     * @return void
+     */
     public function __construct(
         private readonly ResultReader $resultReader,
     ) {
     }
 
     /**
+     * Builds a result collection response using request filters and optional project scope.
+     *
+     * @param Request $request The incoming HTTP request containing optional query filters.
+     * @param string|null $project An optional project name from a nested route parameter.
+     * @return array The normalized response payload with result data and metadata.
      * @throws JsonException
      */
     public function execute(Request $request, ?string $project = null): array

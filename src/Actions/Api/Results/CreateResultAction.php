@@ -10,8 +10,23 @@ use JsonException;
 use Uplinkr\Handler\Probe\UrlHandler;
 use UplinkrApi\Support\Api\ProjectProbeCatalog;
 
+/**
+ * Class CreateResultAction
+ * @package UplinkrApi\Actions\Api\Results
+ *
+ * Executes or queues a probe result run and returns a normalized API response.
+ *
+ * @author Sascha Scherhak <sascha@uplinkr.dev>
+ */
 class CreateResultAction
 {
+    /**
+     * Initializes the action with the probe execution handler and probe catalog.
+     *
+     * @param UrlHandler $urlHandler The handler that executes or queues probe runs.
+     * @param ProjectProbeCatalog $catalog The catalog used to validate project scope.
+     * @return void
+     */
     public function __construct(
         private readonly UrlHandler $urlHandler,
         private readonly ProjectProbeCatalog $catalog,
@@ -19,6 +34,11 @@ class CreateResultAction
     }
 
     /**
+     * Validates the request payload and triggers a probe execution for the given scope.
+     *
+     * @param Request $request The incoming HTTP request with probe execution data.
+     * @param string|null $project An optional project name from a nested route parameter.
+     * @return array The normalized response payload containing the execution result.
      * @throws JsonException
      */
     public function execute(Request $request, ?string $project = null): array
@@ -73,6 +93,12 @@ class CreateResultAction
         ];
     }
 
+    /**
+     * Normalizes request headers to the line-based format expected by the base handler.
+     *
+     * @param array $headers The raw headers payload from the request body.
+     * @return array The normalized header lines.
+     */
     private function normalizeHeaders(array $headers): array
     {
         $normalized = [];

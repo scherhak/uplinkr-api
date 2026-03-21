@@ -9,14 +9,32 @@ use Illuminate\Support\Facades\Validator;
 use JsonException;
 use Uplinkr\Storage\FileSettingsStorage;
 
+/**
+ * Class UpdateIamAliveSettingsAction
+ * @package UplinkrApi\Actions\Api\Settings
+ *
+ * Validates and updates the global I-am-alive settings document.
+ *
+ * @author Sascha Scherhak <sascha@uplinkr.dev>
+ */
 class UpdateIamAliveSettingsAction
 {
+    /**
+     * Initializes the action with the settings storage dependency.
+     *
+     * @param FileSettingsStorage $settingsStorage The storage used to persist global settings.
+     * @return void
+     */
     public function __construct(
         private readonly FileSettingsStorage $settingsStorage,
     ) {
     }
 
     /**
+     * Validates the incoming settings payload and updates the persisted values.
+     *
+     * @param Request $request The incoming HTTP request containing settings fields.
+     * @return array The normalized response payload for the update operation.
      * @throws JsonException
      */
     public function execute(Request $request): array

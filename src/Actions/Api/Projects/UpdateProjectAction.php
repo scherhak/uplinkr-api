@@ -9,14 +9,33 @@ use Illuminate\Support\Facades\Validator;
 use JsonException;
 use Uplinkr\Handler\Project\UpdateHandler;
 
+/**
+ * Class UpdateProjectAction
+ * @package UplinkrApi\Actions\Api\Projects
+ *
+ * Applies partial updates to a stored project through the base package handler.
+ *
+ * @author Sascha Scherhak <sascha@uplinkr.dev>
+ */
 class UpdateProjectAction
 {
+    /**
+     * Initializes the action with the project update handler dependency.
+     *
+     * @param UpdateHandler $updateHandler The handler that persists project changes.
+     * @return void
+     */
     public function __construct(
         private readonly UpdateHandler $updateHandler,
     ) {
     }
 
     /**
+     * Validates the request payload and applies the requested project updates.
+     *
+     * @param string $project The project slug or identifier.
+     * @param Request $request The incoming HTTP request with partial update fields.
+     * @return array The normalized response payload for the update operation.
      * @throws JsonException
      */
     public function execute(string $project, Request $request): array
