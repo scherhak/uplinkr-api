@@ -12,51 +12,64 @@ class ProbesApiTest extends TestCase
 {
     public function test_get_probes_returns_seeded_probes(): void
     {
-        $this->seedProject(ApiTestData::projectPayload('status-page'));
-        $this->seedProbe(ApiTestData::probePayload('https://example.com/health', 'GET', 'status-page'));
-        $this->seedProbe(ApiTestData::probePayload('https://example.com/ping', 'POST', 'status-page'));
+        $project = $this->uniqueProjectName('status-page');
+        $firstUrl = sprintf('https://example.com/%s-health', $project);
+        $secondUrl = sprintf('https://example.com/%s-ping', $project);
 
-        $this->withHeaders($this->apiHeaders())
+        $this->seedProject(ApiTestData::projectPayload($project));
+        $this->seedProbe(ApiTestData::probePayload($firstUrl, 'GET', $project));
+        $this->seedProbe(ApiTestData::probePayload($secondUrl, 'POST', $project));
+
+        $response = $this->withHeaders($this->apiHeaders())
             ->getJson('/api/v1/probes')
-            ->assertOk()
-            ->assertJsonCount(2, 'data')
-            ->assertJsonPath('meta.count', 2);
+            ->assertOk();
+
+        $response->assertJsonFragment(['url' => $firstUrl]);
+        $response->assertJsonFragment(['url' => $secondUrl]);
     }
 
     public function test_post_probes_creates_a_probe_for_a_project_from_payload(): void
     {
-        $this->seedProject(ApiTestData::projectPayload('status-page'));
+        $project = $this->uniqueProjectName('status-page');
 
         $this->withHeaders($this->apiHeaders())
-            ->postJson('/api/v1/probes', ApiTestData::probePayload('https://example.com/health', 'GET', 'status-page'))
+            ->postJson('/api/v1/projects', ApiTestData::projectPayload($project))
+            ->assertCreated();
+
+        $this->withHeaders($this->apiHeaders())
+            ->postJson('/api/v1/probes', ApiTestData::probePayload('https://example.com/health', 'GET', $project))
             ->assertCreated()
-            ->assertJsonPath('data.project', 'status-page')
+            ->assertJsonPath('data.project', $project)
             ->assertJsonPath('data.url', 'https://example.com/health')
             ->assertJsonPath('meta.created', true);
     }
 
     public function test_get_project_probes_returns_probes_for_the_requested_project(): void
     {
-        $this->seedProject(ApiTestData::projectPayload('status-page'));
-        $this->seedProject(ApiTestData::projectPayload('other-project'));
-        $this->seedProbe(ApiTestData::probePayload('https://example.com/health', 'GET', 'status-page'));
-        $this->seedProbe(ApiTestData::probePayload('https://example.org/health', 'GET', 'other-project'));
+        $project = $this->uniqueProjectName('status-page');
+        $otherProject = $this->uniqueProjectName('other-project');
+        $this->seedProject(ApiTestData::projectPayload($project));
+        $this->seedProject(ApiTestData::projectPayload($otherProject));
+        $this->seedProbe(ApiTestData::probePayload('https://example.com/health', 'GET', $project));
+        $this->seedProbe(ApiTestData::probePayload('https://example.org/health', 'GET', $otherProject));
 
-        $this->withHeaders($this->apiHeaders())
-            ->getJson('/api/v1/projects/status-page/probes')
+        $response = $this->withHeaders($this->apiHeaders())
+            ->getJson(sprintf('/api/v1/projects/%s/probes', $project))
             ->assertOk()
-            ->assertJsonCount(1, 'data')
-            ->assertJsonPath('data.0.project', 'status-page');
+            ->assertJsonPath('data.0.project', $project);
+
+        $response->assertJsonMissing(['project' => $otherProject]);
     }
 
     public function test_post_project_probe_creates_a_probe_under_the_requested_project(): void
     {
-        $this->seedProject(ApiTestData::projectPayload('status-page'));
+        $project = $this->uniqueProjectName('status-page');
+        $this->seedProject(ApiTestData::projectPayload($project));
 
         $this->withHeaders($this->apiHeaders())
-            ->postJson('/api/v1/projects/status-page/probes', ApiTestData::probePayload())
+            ->postJson(sprintf('/api/v1/projects/%s/probes', $project), ApiTestData::probePayload())
             ->assertCreated()
-            ->assertJsonPath('data.project', 'status-page')
+            ->assertJsonPath('data.project', $project)
             ->assertJsonPath('data.url', 'https://example.com/health')
             ->assertJsonPath('meta.created', true);
     }

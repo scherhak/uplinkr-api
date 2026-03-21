@@ -48,8 +48,15 @@ class DeleteProjectAction
         }
 
         return [
-            'status' => 204,
-            'data' => null,
+            'status' => 200,
+            'data' => [
+                'project' => $project,
+                'deleted' => true,
+                'archived' => true,
+            ],
+            'meta' => [
+                'message' => 'Project deleted successfully.',
+            ],
         ];
     }
 }
