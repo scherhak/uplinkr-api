@@ -28,6 +28,12 @@ REST API for [Uplinkr](https://github.com/scherhak/uplinkr) monitoring projects,
 
 Uplinkr API extends the CLI-first Uplinkr package with HTTP endpoints so monitoring data and configuration can be managed from external systems, internal tooling, or test clients such as Postman.
 
+## Documentation
+
+- Homepage and docs: https://uplinkr.dev
+- Package repository: https://github.com/scherhak/uplinkr-api
+- Base package: https://github.com/scherhak/uplinkr
+
 ## What is Uplinkr API?
 
 **Uplinkr API** is a lightweight Laravel package that exposes selected Uplinkr functionality through a versioned REST API.
@@ -260,11 +266,11 @@ php artisan vendor:publish --tag=uplinkr-api-config
 
 ## Contributing
 
-Contributions are welcome. Keep changes explicit, small in scope, and aligned with the CLI-first Uplinkr architecture.
+Contributions are welcome. Please see [CONTRIBUTING.md](CONTRIBUTING.md) for details.
 
 ## Security
 
-If you discover a security issue, please report it responsibly before opening a public issue.
+If you discover a security issue, please see [SECURITY.md](SECURITY.md) for how to report it responsibly.
 
 ## License
 
