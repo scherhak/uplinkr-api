@@ -5,7 +5,7 @@
 <h1 align="center" style="margin-top: -3rem;">Uplinkr API</h1>
 
 <p align="center">
-  REST API for Uplinkr monitoring projects, probes, and global settings.<br>
+  REST API for Uplinkr monitoring projects, probes, alert rules, and global settings.<br>
   Versioned Laravel endpoints for managing Uplinkr over HTTP.
 </p>
 
@@ -58,6 +58,7 @@ The package stays close to the architecture of the base package:
 - **Project management** for listing, creating, updating, and deleting projects
 - **Probe management** with project-scoped probe resources
 - **Global settings endpoint** for I-am-alive configuration
+- **Project alert settings** for failure, latency, channel, and TLS certificate rules
 - **API key authentication** with optional Bearer token support
 - **Rate limiting** for the API surface
 - **Interactive API docs** via OpenAPI UI under `/api/docs`
@@ -190,6 +191,33 @@ Example request body for `PATCH /api/v1/settings/iam-alive`:
 }
 ```
 
+### Project alerts
+
+| Method | URI |
+| --- | --- |
+| `GET` | `/api/v1/projects/{project}/alerts` |
+| `PATCH` | `/api/v1/projects/{project}/alerts` |
+
+The `PATCH` endpoint accepts partial updates. At least one field must be
+provided; omitted fields keep their current value.
+
+```json
+{
+  "enabled": true,
+  "trigger_after_failures": 3,
+  "cooldown_minutes": 30,
+  "latency_threshold_ms": 1500,
+  "trigger_after_slow": 3,
+  "certificate_expiration_enabled": true,
+  "certificate_expiration_warning_days": [30, 14, 7, 3, 1],
+  "channels": ["mail", "log", "webhook"]
+}
+```
+
+Certificate thresholds must be positive and unique. They are stored and
+returned in descending order. Supported channels are `mail`, `log`, and
+`webhook`.
+
 ## Example Requests
 
 Create a project:
@@ -225,6 +253,19 @@ curl http://localhost/api/v1/settings/iam-alive \
   -H "X-Uplinkr-Api-Key: replace-me-with-a-long-random-key"
 ```
 
+Update certificate alert settings:
+
+```bash
+curl -X PATCH http://localhost/api/v1/projects/status-page/alerts \
+  -H "X-Uplinkr-Api-Key: replace-me-with-a-long-random-key" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "certificate_expiration_enabled": true,
+    "certificate_expiration_warning_days": [30, 14, 7, 3, 1],
+    "channels": ["mail", "log"]
+  }'
+```
+
 ## Configuration
 
 Default route prefix:
@@ -256,7 +297,8 @@ php artisan vendor:publish --tag=uplinkr-api-config
 ## Requirements
 
 - **PHP:** 8.4 or higher
-- **Laravel:** 12.x
+- **Laravel:** 12.x or 13.x
+- **Uplinkr:** 0.4.x
 
 ## Development Notes
 

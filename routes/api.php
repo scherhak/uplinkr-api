@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Illuminate\Support\Facades\Route;
+use UplinkrApi\Http\Controllers\Api\ProjectAlertsController;
 use UplinkrApi\Http\Controllers\Api\ProbesController;
 use UplinkrApi\Http\Controllers\Api\ProjectsController;
 use UplinkrApi\Http\Controllers\Api\SettingsController;
@@ -29,6 +30,9 @@ Route::prefix(trim($prefix, '/'))
         Route::get('/projects/{project}', [ProjectsController::class, 'show']);
         Route::patch('/projects/{project}', [ProjectsController::class, 'update']);
         Route::delete('/projects/{project}', [ProjectsController::class, 'destroy']);
+
+        Route::get('/projects/{project}/alerts', [ProjectAlertsController::class, 'show']);
+        Route::patch('/projects/{project}/alerts', [ProjectAlertsController::class, 'update']);
 
         Route::get('/probes', [ProbesController::class, 'index']);
         Route::post('/probes', [ProbesController::class, 'store']);

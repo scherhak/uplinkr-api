@@ -32,11 +32,11 @@
   ],
   "require": {
     "php": "^8.4",
-    "dedoc/scramble": "^0.12",
-    "illuminate/http": "^12.0",
-    "illuminate/routing": "^12.0",
-    "illuminate/support": "^12.0",
-    "scherhak/uplinkr": "^0.3.0"
+    "dedoc/scramble": "^0.13",
+    "illuminate/http": "^12.0|^13.0",
+    "illuminate/routing": "^12.0|^13.0",
+    "illuminate/support": "^12.0|^13.0",
+    "scherhak/uplinkr": "^0.4.0"
   },
   "config": {
     "platform": {
@@ -57,8 +57,8 @@
     }
   },
   "require-dev": {
-    "orchestra/testbench": "^10.0",
-    "phpunit/phpunit": "^11.0"
+    "orchestra/testbench": "^10.0|^11.0",
+    "phpunit/phpunit": "^11.0|^12.0"
   },
   "autoload-dev": {
     "psr-4": {

@@ -169,6 +169,36 @@
       ]
     },
     {
+      "name": "Project Alerts",
+      "item": [
+        {
+          "name": "Get Project Alert Settings",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "X-Uplinkr-Api-Key", "value": "{{api_key}}" }
+            ],
+            "url": "{{base_url}}{{api_prefix}}/projects/{{project}}/alerts"
+          }
+        },
+        {
+          "name": "Patch Project Alert Settings",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "X-Uplinkr-Api-Key", "value": "{{api_key}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"enabled\": true,\n  \"trigger_after_failures\": 3,\n  \"cooldown_minutes\": 30,\n  \"latency_threshold_ms\": 1500,\n  \"trigger_after_slow\": 3,\n  \"certificate_expiration_enabled\": true,\n  \"certificate_expiration_warning_days\": [30, 14, 7, 3, 1],\n  \"channels\": [\"mail\", \"log\", \"webhook\"]\n}"
+            },
+            "url": "{{base_url}}{{api_prefix}}/projects/{{project}}/alerts"
+          }
+        }
+      ]
+    },
+    {
       "name": "Settings",
       "item": [
         {

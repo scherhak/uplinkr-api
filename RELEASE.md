@@ -1,15 +1,25 @@
-# Release v0.1.0
+# Release v0.2.0
 
-Initial public release of `scherhak/uplinkr-api`.
+Project alert settings API and Laravel 13 compatibility.
 
 ## Summary
 
-`uplinkr-api` extends the CLI-first [`scherhak/uplinkr`](https://github.com/scherhak/uplinkr) package with a versioned REST API for managing monitoring projects, probes, and selected global settings in Laravel 12 applications.
+`uplinkr-api` v0.2.0 adds project-scoped alert settings endpoints backed by
+Uplinkr v0.4.0 and expands support to Laravel 13.
 
-This release establishes the first usable API baseline for the package.
+The release is backward compatible with the existing v0.1.0 endpoints.
 
 ## Included
 
+- all endpoints from v0.1.0
+- project alert settings endpoints
+  - `GET /projects/{project}/alerts`
+  - `PATCH /projects/{project}/alerts`
+- partial alert updates with validation and normalized responses
+- TLS certificate alert activation and warning thresholds
+- Uplinkr `^0.4.0`
+- Scramble `^0.13`
+- Laravel 12 and 13 compatibility
 - versioned API routes under `/api/v1`
 - project endpoints
   - `GET /projects`
@@ -39,16 +49,17 @@ This release establishes the first usable API baseline for the package.
 - namespace separated from the base package via `UplinkrApi\\...`
 - API implementation uses Uplinkr handlers and storage classes directly
 - result endpoints are intentionally not part of the current public API surface
-- package targets PHP `^8.4` and Laravel `^12.0`
+- package targets PHP `^8.4` and Laravel `^12.0|^13.0`
+- no breaking route or storage changes
+- no migration is required
 
 ## Release Notes
 
-- initial standalone package baseline created
-- package metadata, provider wiring, and configuration cleaned up
-- REST-first API structure introduced for projects and probes
-- security baseline added
-- OpenAPI documentation integrated
-- GitHub Actions and PHPUnit setup aligned with the current package requirements
+- project alert resources added to the REST and OpenAPI surfaces
+- Postman collection expanded with project alert requests
+- validation rejects empty payloads, duplicate thresholds, unsupported channels,
+  and non-positive values
+- legacy projects receive stable certificate alert defaults in API responses
 
 ## Installation
 
