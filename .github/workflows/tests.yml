@@ -14,6 +14,13 @@ jobs:
       fail-fast: false
       matrix:
         php: [ "8.4", "8.5" ]
+        laravel:
+          - version: "^12.0"
+            testbench: "^10.0"
+            phpunit: "^11.0|^12.0"
+          - version: "^13.0"
+            testbench: "^11.0"
+            phpunit: "^12.0"
 
     steps:
       - name: Checkout
@@ -31,7 +38,7 @@ jobs:
         uses: actions/cache@v5
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-composer-${{ matrix.php }}-${{ hashFiles('**/composer.lock') }}
+          key: ${{ runner.os }}-composer-${{ matrix.php }}-laravel-${{ matrix.laravel.version }}-${{ hashFiles('**/composer.json') }}
           restore-keys: |
             ${{ runner.os }}-composer-${{ matrix.php }}-
             ${{ runner.os }}-composer-
@@ -39,8 +46,18 @@ jobs:
       - name: Validate composer.json
         run: composer validate --strict
 
+      - name: Select Laravel test matrix
+        run: |
+          composer require --no-update \
+            "illuminate/http:${{ matrix.laravel.version }}" \
+            "illuminate/routing:${{ matrix.laravel.version }}" \
+            "illuminate/support:${{ matrix.laravel.version }}"
+          composer require --dev --no-update \
+            "orchestra/testbench:${{ matrix.laravel.testbench }}" \
+            "phpunit/phpunit:${{ matrix.laravel.phpunit }}"
+
       - name: Install dependencies
-        run: composer install --prefer-dist --no-interaction --no-progress
+        run: composer update --prefer-dist --no-interaction --no-progress --with-all-dependencies
 
       - name: Run PHPUnit
         run: ./vendor/bin/phpunit --testdox
