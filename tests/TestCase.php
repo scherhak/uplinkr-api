@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace UplinkrApi\Tests;
 
+use Dedoc\Scramble\ScrambleServiceProvider;
 use Illuminate\Support\Facades\Storage;
 use Uplinkr\Handler\Probe\ResultHandler;
 use Uplinkr\Handler\Probe\UrlHandler;
@@ -28,6 +29,7 @@ abstract class TestCase extends OrchestraTestCase
     protected function getPackageProviders($app): array
     {
         return [
+            ScrambleServiceProvider::class,
             UplinkrServiceProvider::class,
             UplinkrApiServiceProvider::class,
         ];
@@ -35,6 +37,7 @@ abstract class TestCase extends OrchestraTestCase
 
     protected function getEnvironmentSetUp($app): void
     {
+        $app['config']->set('app.key', 'base64:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=');
         $app['config']->set('uplinkr.storage.disk', 'local');
         $app['config']->set('uplinkr.storage.path', 'uplinkr-api-tests');
         $app['config']->set('uplinkr-api.security.api_key.enabled', true);

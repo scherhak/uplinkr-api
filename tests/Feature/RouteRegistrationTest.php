@@ -26,6 +26,14 @@ class RouteRegistrationTest extends TestCase
             static fn (array $route): bool => $route['uri'] === 'api/v1/settings/iam-alive'
                 && in_array('PATCH', $route['methods'], true)
         ));
+        $this->assertTrue($routes->contains(
+            static fn (array $route): bool => $route['uri'] === 'api/v1/projects/{project}/alerts'
+                && in_array('GET', $route['methods'], true)
+        ));
+        $this->assertTrue($routes->contains(
+            static fn (array $route): bool => $route['uri'] === 'api/v1/projects/{project}/alerts'
+                && in_array('PATCH', $route['methods'], true)
+        ));
         $this->assertTrue(Route::has('uplinkr-api.docs.ui'));
         $this->assertTrue(Route::has('uplinkr-api.docs.openapi'));
     }
